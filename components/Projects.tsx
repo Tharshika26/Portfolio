@@ -13,7 +13,7 @@ const PROJECTS = [
     description: "A full-stack Home Service Management System with a responsive interface to streamline service booking, provider management, and administrative operations. Features role-based access control (RBAC), JWT-based authentication, and OTP email verification.",
     tech: ["React.js (Vite)", "PHP 8.x", "MySQL", "PDO", "JWT", "PHPMailer"],
     links: { githubFrontend: "https://github.com/Tharshika26/home-management-system-Frontend.git", githubBackend: "https://github.com/Tharshika26/home-management-system-Backend.git" },
-    video: "/ServiceHub.mp4",
+    video: "/Servicehub.mp4",
   },
   {
     title: "DonorNet",
@@ -31,7 +31,7 @@ const PROJECTS = [
     description: "A full-stack web application for managing vehicles, tracking service history, and monitoring maintenance costs. Integrates RESTful APIs, protected routes, and service reminders.",
     tech: ["React.js", "Django", "PostgreSQL", "Tailwind CSS", "Axios"],
     links: { github: "https://github.com/Tharshika26/Vehicle-Maintenance-System.git" },
-    video: "/AutoTrack.mp4",
+    video: "/Autotrack.mp4",
   },
   {
     title: "DrHospital",
@@ -40,7 +40,7 @@ const PROJECTS = [
     description: "A comprehensive hospital management system supporting appointment scheduling, medical reports, and online payments. Features OCR and OpenAI API integration to analyze uploaded medical reports and generate AI-powered summaries.",
     tech: ["React.js (Vite)", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "Stripe", "OpenAI API"],
     links: { github: "https://github.com/Tharshika26/DrHospital.git", live: "https://dr-hospital.vercel.app" },
-    video: "/DrHospital.mp4",
+    video: "/Drhospital.mp4",
   },
 ];
 
