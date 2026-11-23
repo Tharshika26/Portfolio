@@ -7,12 +7,12 @@ const SKILL_CATEGORIES = [
   {
     title: "Languages & Frontend",
     icon: <Layout className="w-6 h-6 text-primary" />,
-    skills: ["JavaScript (ES6+)", "Python", "Java", "React.js", "Next.js", "React Native", "Tailwind CSS", "HTML5", "CSS3"],
+    skills: ["JavaScript", "TypeScript", "Python", "Java", "SQL", "PHP", "React.js", "Next.js", "React Native", "Tailwind CSS", "HTML5", "CSS3"],
   },
   {
     title: "Backend & APIs",
     icon: <Code2 className="w-6 h-6 text-primary" />,
-    skills: ["Node.js", "Express.js", "FastAPI", "Django", "PHP", "RESTful API", "JWT Auth", "OAuth 2.0"],
+    skills: ["Node.js", "Express.js", "Django", "PHP", "RESTful API", "JWT Auth", "OAuth 2.0"],
   },
   {
     title: "Databases & Cloud",
@@ -22,7 +22,7 @@ const SKILL_CATEGORIES = [
   {
     title: "DevOps & Tools",
     icon: <Settings className="w-6 h-6 text-primary" />,
-    skills: ["Git", "GitHub", "GitHub Actions", "CI/CD", "Vercel", "Postman", "Figma", "Agile/Scrum"],
+    skills: ["Git", "GitHub", "CI/CD", "Vercel", "Postman", "VS Code", "Figma", "Docker"],
   },
 ];
 
@@ -72,7 +72,7 @@ export default function Skills() {
         <div className="mt-16 text-center">
           <h3 className="text-xl font-semibold mb-6">Core Concepts</h3>
           <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-            {["Object-Oriented Programming (OOP)", "Data Structures & Algorithms", "Software Development Life Cycle (SDLC)", "Unit Testing", "Responsive Web Design", "Role-Based Access Control (RBAC)"].map((concept) => (
+            {["Object-Oriented Programming (OOP)", "Data Structures & Algorithms", "Software Development Life Cycle (SDLC)", "Unit Testing", "Responsive Web Design", "Role-Based Access Control (RBAC)", "MVC Architecture", "Agile/Scrum"].map((concept) => (
               <span key={concept} className="px-4 py-2 bg-primary/10 text-primary border border-primary/20 rounded-full text-sm font-medium">
                 {concept}
               </span>

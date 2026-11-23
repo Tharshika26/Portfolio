@@ -2,10 +2,84 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { ExternalLink, X, ChevronLeft, ChevronRight, Code2 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 
-const PROJECTS = [
+interface ProjectLinks {
+  live?: string;
+  github?: string;
+  githubFrontend?: string;
+  githubBackend?: string;
+  githubML?: string;
+}
+
+interface ProjectItem {
+  title: string;
+  subtitle: string;
+  date: string;
+  description: string;
+  tech: string[];
+  links?: ProjectLinks;
+  video?: string;
+  images?: string[];
+}
+
+const PROJECTS: ProjectItem[] = [
+  {
+    title: "AgriGrowthRate",
+    subtitle: "Smart Agriculture System",
+    date: "Jul 2026 – Sep 2026",
+    description: "A comprehensive trilingual smart agriculture platform featuring role-based portals, a farmer marketplace, real-time notifications, and Stripe payment integration. Designed RESTful APIs using Node.js, Express.js, and MongoDB with JWT & Google authentication, AWS S3 storage, and automated PDF report generation. Integrated a Python/Django crop disease detection microservice using Vision Transformer (ViT) and CNN models, alongside a RAG-powered agricultural chatbot using OpenAI API and Pinecone.",
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Node.js",
+      "Express.js",
+      "Python",
+      "Django",
+      "MongoDB",
+      "AWS S3",
+      "DynamoDB",
+      "Pinecone",
+      "OpenAI API",
+      "Tailwind CSS",
+      "Stripe",
+      "Socket.io",
+    ],
+    links: {
+      githubFrontend: "https://github.com/jayakulan/AgriGrowthRate-Frontend.git",
+      githubBackend: "https://github.com/jayakulan/AgriGrowthRate-Backend.git",
+      githubML: "https://github.com/jayakulan/AgriGrowthRate-Crop-Disease-Identification.git",
+    },
+    video: "/AgriGrowthRate.mp4",
+  },
+  {
+    title: "DrHospital",
+    subtitle: "Hospital Management System",
+    date: "Jun 2026",
+    description: "A comprehensive hospital management system supporting appointment scheduling, medical reports, and online payments. Features OCR and OpenAI API integration to analyze uploaded medical reports and generate AI-powered summaries.",
+    tech: ["React.js (Vite)", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "Stripe", "OpenAI API"],
+    links: { github: "https://github.com/Tharshika26/DrHospital.git", live: "https://dr-hospital.vercel.app" },
+    video: "/Drhospital.mp4",
+  },
+  {
+    title: "AutoTrack Web",
+    subtitle: "Vehicle Maintenance & Service Tracking System",
+    date: "Feb 2026",
+    description: "A full-stack web application for managing vehicles, tracking service history, and monitoring maintenance costs. Integrates RESTful APIs, protected routes, and service reminders.",
+    tech: ["React.js", "Django", "PostgreSQL", "Tailwind CSS", "Axios"],
+    links: { github: "https://github.com/Tharshika26/Vehicle-Maintenance-System.git" },
+    video: "/Autotrack.mp4",
+  },
+  {
+    title: "DonorNet",
+    subtitle: "Blood Donor Finder Mobile Application",
+    date: "Dec 2025",
+    description: "A cross-platform mobile application to help users search and connect with nearby blood donors based on blood group and city. Includes secure email/password authentication and real-time donor data management.",
+    tech: ["React Native (Expo)", "Firebase Auth", "Firebase Firestore"],
+    links: { github: "https://github.com/Tharshika26/DonorNet.git" },
+    images: ["/DonorNet1.png", "/DonorNet2.png", "/DonorNet3.png", "/DonorNet4.png"],
+  },
   {
     title: "ServiceHub",
     subtitle: "Home Service Management System",
@@ -14,33 +88,6 @@ const PROJECTS = [
     tech: ["React.js (Vite)", "PHP 8.x", "MySQL", "PDO", "JWT", "PHPMailer"],
     links: { githubFrontend: "https://github.com/Tharshika26/home-management-system-Frontend.git", githubBackend: "https://github.com/Tharshika26/home-management-system-Backend.git" },
     video: "/Servicehub.mp4",
-  },
-  {
-    title: "DonorNet",
-    subtitle: "Blood Donor Finder Mobile Application",
-    date: "Dec 2024",
-    description: "A cross-platform mobile application to help users search and connect with nearby blood donors based on blood group and city. Includes secure email/password authentication and real-time donor data management.",
-    tech: ["React Native (Expo)", "Firebase Auth", "Firebase Firestore"],
-    links: { github: "https://github.com/Tharshika26/DonorNet.git" },
-    images: ["/DonorNet1.png", "/DonorNet2.png", "/DonorNet3.png", "/DonorNet4.png"],
-  },
-  {
-    title: "AutoTrack Web",
-    subtitle: "Vehicle Maintenance & Service Tracking System",
-    date: "Feb 2025",
-    description: "A full-stack web application for managing vehicles, tracking service history, and monitoring maintenance costs. Integrates RESTful APIs, protected routes, and service reminders.",
-    tech: ["React.js", "Django", "PostgreSQL", "Tailwind CSS", "Axios"],
-    links: { github: "https://github.com/Tharshika26/Vehicle-Maintenance-System.git" },
-    video: "/Autotrack.mp4",
-  },
-  {
-    title: "DrHospital",
-    subtitle: "Advanced Hospital Management System",
-    date: "Jun 2025",
-    description: "A comprehensive hospital management system supporting appointment scheduling, medical reports, and online payments. Features OCR and OpenAI API integration to analyze uploaded medical reports and generate AI-powered summaries.",
-    tech: ["React.js (Vite)", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "Stripe", "OpenAI API"],
-    links: { github: "https://github.com/Tharshika26/DrHospital.git", live: "https://dr-hospital.vercel.app" },
-    video: "/Drhospital.mp4",
   },
 ];
 
@@ -140,7 +187,7 @@ const ImageCarouselModal = ({ images, title }: { images: string[], title: string
 
 
 export default function Projects() {
-  const [selectedMedia, setSelectedMedia] = useState<any>(null);
+  const [selectedMedia, setSelectedMedia] = useState<ProjectItem | null>(null);
   const [showAll, setShowAll] = useState(false);
 
   return (
@@ -172,9 +219,16 @@ export default function Projects() {
                 </span>
 
                 <div className="mt-2">
-                  <h3 className="text-2xl font-bold text-foreground mb-1">
-                    {project.title}
-                  </h3>
+                  <div className="flex items-center justify-between gap-2 mb-1 flex-wrap">
+                    <h3 className="text-2xl font-bold text-foreground">
+                      {project.title}
+                    </h3>
+                    {project.date && (
+                      <span className="text-xs font-semibold text-muted-foreground bg-accent/60 px-2.5 py-1 rounded-full border border-border/40">
+                        {project.date}
+                      </span>
+                    )}
+                  </div>
                   <h4 className="text-sm font-medium text-primary mb-4">{project.subtitle}</h4>
 
                   <div className="flex flex-wrap gap-2 mb-6">
@@ -208,6 +262,11 @@ export default function Projects() {
                     {project.links?.githubBackend && (
                       <a href={project.links.githubBackend} target="_blank" rel="noopener noreferrer" className="text-sm font-bold underline underline-offset-4 hover:text-primary transition-colors flex items-center gap-1">
                         Backend <FaGithub size={14} />
+                      </a>
+                    )}
+                    {project.links?.githubML && (
+                      <a href={project.links.githubML} target="_blank" rel="noopener noreferrer" className="text-sm font-bold underline underline-offset-4 hover:text-primary transition-colors flex items-center gap-1">
+                        ML Model <FaGithub size={14} />
                       </a>
                     )}
                   </div>
@@ -244,8 +303,16 @@ export default function Projects() {
 
                   {/* Fallback if neither video nor images */}
                   {!project.video && !project.images && (
-                    <div className="text-xl font-bold text-foreground/30 px-6 text-center z-20">
-                      {project.title} Interface Preview
+                    <div className="flex flex-col items-center justify-center p-6 text-center z-20">
+                      <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-3 text-primary">
+                        <Code2 size={32} />
+                      </div>
+                      <div className="text-xl font-bold text-foreground mb-1">
+                        {project.title}
+                      </div>
+                      <div className="text-xs text-muted-foreground max-w-xs">
+                        {project.subtitle}
+                      </div>
                     </div>
                   )}
 
@@ -274,7 +341,7 @@ export default function Projects() {
                   onClick={() => setSelectedMedia(project)}
                 >
                   <div className="w-full h-full bg-linear-to-br from-primary/5 to-primary/20 rounded-xl flex items-center justify-center relative overflow-hidden group-hover:opacity-90 transition-opacity border border-border/50">
-                    
+
                     {/* Background Video */}
                     {project.video && (
                       <video
@@ -294,8 +361,11 @@ export default function Projects() {
 
                     {/* Fallback if neither video nor images */}
                     {!project.video && !project.images && (
-                      <div className="text-sm font-bold text-foreground/30 px-2 text-center z-20">
-                        {project.title} Preview
+                      <div className="flex flex-col items-center justify-center p-3 text-center z-20">
+                        <Code2 size={24} className="text-primary mb-1.5" />
+                        <div className="text-xs font-bold text-foreground">
+                          {project.title}
+                        </div>
                       </div>
                     )}
 
@@ -312,7 +382,7 @@ export default function Projects() {
 
         {PROJECTS.length > 2 && (
           <div className="mt-16 text-center">
-            <button 
+            <button
               onClick={() => setShowAll(!showAll)}
               className="px-8 py-2.5 border border-border rounded-full hover:bg-accent hover:text-accent-foreground transition-colors font-medium text-sm inline-flex items-center gap-2"
             >
@@ -360,8 +430,47 @@ export default function Projects() {
               ) : selectedMedia.images ? (
                 <ImageCarouselModal images={selectedMedia.images} title={selectedMedia.title} />
               ) : (
-                <div className="p-20 text-center text-muted-foreground">
-                  Media preview not available for {selectedMedia.title}
+                <div className="p-8 md:p-16 text-center flex flex-col items-center justify-center max-w-2xl">
+                  <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 text-primary">
+                    <Code2 size={32} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-foreground mb-1">{selectedMedia.title}</h3>
+                  <p className="text-sm font-medium text-primary mb-3">{selectedMedia.subtitle}</p>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">{selectedMedia.description}</p>
+                  <div className="flex flex-wrap gap-2 justify-center mb-8">
+                    {selectedMedia.tech.map((t: string) => (
+                      <span key={t} className="px-3 py-1 bg-accent text-accent-foreground text-xs font-medium rounded-full border border-border/50">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-4 justify-center">
+                    {selectedMedia.links?.live && (
+                      <a href={selectedMedia.links.live} target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-primary text-primary-foreground rounded-full text-xs font-bold hover:opacity-90 transition-opacity flex items-center gap-1.5">
+                        Live Demo <ExternalLink size={14} />
+                      </a>
+                    )}
+                    {selectedMedia.links?.github && (
+                      <a href={selectedMedia.links.github} target="_blank" rel="noopener noreferrer" className="px-4 py-2 border border-border rounded-full text-xs font-bold hover:bg-accent transition-colors flex items-center gap-1.5">
+                        GitHub <FaGithub size={14} />
+                      </a>
+                    )}
+                    {selectedMedia.links?.githubFrontend && (
+                      <a href={selectedMedia.links.githubFrontend} target="_blank" rel="noopener noreferrer" className="px-4 py-2 border border-border rounded-full text-xs font-bold hover:bg-accent transition-colors flex items-center gap-1.5">
+                        Frontend <FaGithub size={14} />
+                      </a>
+                    )}
+                    {selectedMedia.links?.githubBackend && (
+                      <a href={selectedMedia.links.githubBackend} target="_blank" rel="noopener noreferrer" className="px-4 py-2 border border-border rounded-full text-xs font-bold hover:bg-accent transition-colors flex items-center gap-1.5">
+                        Backend <FaGithub size={14} />
+                      </a>
+                    )}
+                    {selectedMedia.links?.githubML && (
+                      <a href={selectedMedia.links.githubML} target="_blank" rel="noopener noreferrer" className="px-4 py-2 border border-border rounded-full text-xs font-bold hover:bg-accent transition-colors flex items-center gap-1.5">
+                        ML Model <FaGithub size={14} />
+                      </a>
+                    )}
+                  </div>
                 </div>
               )}
             </motion.div>
